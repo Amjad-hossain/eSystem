@@ -1,0 +1,46 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+     <!--Global Security Settings -->
+    <global-method-security pre-post-annotations="enabled"/>
+
+    <http auto-config="true">
+
+        <intercept-url pattern="/login.do" access="permitAll"/>
+        <intercept-url pattern="/logout.do" access="permitAll"/>
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_SUPER_ADMIN')" />
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_SUPER_ADMIN')" />
+
+        <!--<form-login login-page="/login.do"
+                default-target-url="/"
+                authentication-failure-url="/login.do?error=1"
+                username-parameter="username"
+                password-parameter="password" />
+        -->
+        <form-login login-page="/login.do" default-target-url="/forward.do" authentication-failure-url="/login.do?error=1"/>
+
+        <logout logout-url="/logout.do" logout-success-url="/login.do?out=1" delete-cookies="JSESSIONID" invalidate-session="true" />
+
+        <!-- enable csrf protection -->
+        <csrf disabled="true"/>
+    </http>
+
+<!--    <authentication-manager>
+        <authentication-provider>
+            <password-encoder hash="sha-256" />
+            <user-service>
+                <user name="admin" password="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" authorities="ROLE_USER, ROLE_ADMIN" />
+                <user name="manager" password="123" authorities="ROLE_ADMIN" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>-->
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userService">
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

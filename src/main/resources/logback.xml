@@ -1,0 +1,42 @@
+<configuration debug="true">
+    <!-- <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>   -->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <file>/tmp/notif.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGFILE" class="ch.qos.logback.core.FileAppender">
+        <file>/tmp/eSystem.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.quartz">
+        <level value="ERROR"/>
+    </logger>
+<!--
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="org.hibernate.hql" level="ERROR"/>
+    <logger name="org.hibernate.SQL" level="ERROR"/>
+    -->
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="com.wordnik" level="ERROR"/>
+    <logger name="o.s.s.w" level="ERROR"/>
+    <logger name="org.apache.commons" level="ERROR"/>
+    <logger name="o.a.t.d" level="ERROR"/>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGFILE"/>
+    </root>
+
+    <root level="trace">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGFILE"/>
+    </root>
+
+</configuration>

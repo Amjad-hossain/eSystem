@@ -1,0 +1,56 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com.codehaven"/>
+    <!--<context:annotation-config />-->
+
+    <mvc:annotation-driven />
+    <mvc:resources mapping="/resources/**" location="/assets/"/>
+
+    <!-- internalization-->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          p:basenames="classpath:messages" p:defaultEncoding="UTF-8" />
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+              p:paramName="local" />
+    </mvc:interceptors>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="bd"/>
+    </bean>
+
+    <bean id="tilesTempate" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="bd"/>
+    </bean>
+
+    <!-- Tiles configuration -->
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="completeAutoload" value="true"/>
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/defs/tiles.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+    </bean>
+
+    <!--  Request interceptor -->
+    <mvc:interceptors>
+        <bean class="com.codehaven.interceptor.RequestInterceptor"/>
+    </mvc:interceptors>
+
+    <!-- Database connection -->
+    <import resource="database.xml"/>
+    <import resource="esystem-security.xml"/>
+
+</beans>
